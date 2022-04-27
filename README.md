@@ -1,10 +1,39 @@
 # AC221-Final-Project-Embedding-Bias
 
-## Metrics
+Yuanbiao Wang, Angel Hsu, Morris Reeves, Xinyi Li
 
-### Bad word
 
+
+
+## Motivation
+
+Since text and images are two primary modes of communication in our society, it is of significant importance to explore bias in these two contexts, identify ways to mitigate bias in these two modes, and explore the potential connections between working with bias in the two modes. Commonly, learned representations, the numerical vector representations of either text or images learned from large pre-trained neural networks, are used to perform transfer learning on downstream tasks. As such models increase in complexity, it is increasingly important to examine the biases in these unexplainable vector representations, and that will be our focus in this project.
+
+In this project, we prioritized exploring bias in text by (1) training our own embeddings to identify where bias may originate from, (2) identifying whether existing embeddings have bias, and (3) using biased embeddings for classification to identify whether bias in embeddings diffuse to downstream tasks. We also supplemented this analysis by exploring cross-modal representations produced by CLIP, a self-supervised learning algorithm that aims to acquire cross-modal representations by contrasting co-occurring texts and images. CLIP was introduced by OpenAI in 2021; the algorithm is garnering attention in many fields, including text-prompted image generation, visual question answering, and image captioning. While this new algorithm shows great potential in bridging semantic understanding between images and text, it also embodies new ethical risks by introducing risks from both areas.
+
+
+
+
+## Definition and Metrics
+
+For this project, we primarily focus on gender bias and we define bias using the following 2 metrics.
+
+### Cosine similarity with offensive words
+#### Definition
+We have a list of male word and female word listed below.
+```python
+male_words = ['he', 'male', 'man', 'father', 'boy', 'husband']
+female_words = ['she', 'female', 'woman', 'mother', 'girl', 'wife']
 ```
+We also have a list of offensive/profane word from CMU: https://www.cs.cmu.edu/~biglou/resources/
+
+So we define the bias using the cosine similarity between 2 embedding vectors. If a gender-related word has higher cosine similarity with an offensive word compared to the corresponding word for the opposite gender, then we believe the embedding has a bias against that gender. We take the mean cosine similarity defined as follows to aggregate the performance over the offensive word list.
+
+$$\frac{\sum_{i=1}^n cos(male\_word, bad\_word_i)}{n}-\frac{\sum_{i=1}^n cos(female\_word, bad\_word_i)}{n}$$
+
+#### Usage 
+
+```python
 from badword_matric import calculate_cos_with_badwords
 res = calculate_cos_with_badwords(embedding={'word1':emb1, 'word2':emb2, ...})
 ## emb1 and 2 must be np.array
@@ -12,3 +41,27 @@ res = calculate_cos_with_badwords(embedding={'word1':emb1, 'word2':emb2, ...})
 ## x is a list of cosine similarity of the m word and bad words that are in embedding
 ## y is a list of cosine similarity of the f word and bad words that are in embedding
 ```
+
+
+## Tasks
+
+### Bias in Embeddings trained from scratch
+
+### Bias in Existing Word Embeddings
+
+We think it is very important to examine the bias in existing embeddings since people too often just use these pretrain embeddings and trust them in their performance as well as fairness. At the same time, we hope to find clues of where the bias could come from by doing comparative studies across different embeddings and also their variants, and also give guidance on which is a less biased embedding when fairness is an important concern of the project. 
+
+In this task, we examined 3 types of common embeddings - Glove, Word2vec and ELMo. As a summary of our findings, we think there are definitely bias in these pretrained word embeddings, but their level of bias varies. Therefore, the users have the choice to use a less biased one in their training. Most importantly, they should try to avoid the embeddings trained on informal dataset like Twitter. Other less significant factors include embedding dimention, dataset size and embedding layers depth. Also, if people want to train embeddings themselves, they may also want to be carefully when choosing which corpus to train on as well as the value of these other factors.
+
+You can find more details about this task in `task2-bias_in_pretrained_word_embeddings.ipynb`. You will need to first download the embeddings with
+
+```python
+./get_data.sh
+```
+
+
+
+### Whether bias in embeddings diffuses into downstream task (Sentiment Analysis)
+
+### Bias in Image Embedding (CLIP)
+
