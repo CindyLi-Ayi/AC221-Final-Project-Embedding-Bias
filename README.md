@@ -18,8 +18,8 @@ In this project, we prioritized exploring bias in text by (1) training our own e
 
 For this project, we primarily focus on gender bias and we define bias using the following 2 metrics.
 
-### Cosine similarity with offensive words
-#### Definition
+#### Bias definition 1: cosine similarity with offensive words
+##### Definition
 We have a list of male word and female word listed below.
 ```python
 male_words = ['he', 'male', 'man', 'father', 'boy', 'husband']
@@ -31,7 +31,7 @@ So we define the bias using the cosine similarity between 2 embedding vectors. I
 
 ![badwords_definition](/images/badwords_definition.png)
 
-#### Usage 
+##### Usage 
 
 ```python
 from badword_matric import calculate_cos_with_badwords
@@ -42,18 +42,21 @@ res = calculate_cos_with_badwords(embedding={'word1':emb1, 'word2':emb2, ...})
 ## y is a list of cosine similarity of the f word and bad words that are in embedding
 ```
 
-### WEAT score
-#### Definitiion
+#### Bias definition 2: WEAT score
+##### Definition
 As implied by its name, the WEAT (Word Embedding Association Test) score measured bias in associations. Introduced by Caliskan et al. (2016), the WEAT score attempts to capture the strength of the association between two sets of target words (e.g. {math, science} and {art, literature}) and two sets of attribute words (e.g. {male, man} and {female, woman}). Intuitively, the score asks: is male/man more associated with math/science than art/literature, relative to female/woman? It does so through comparisons of mean cosine similarities:
 
 ![weat_def1](/images/weat_definition_1.png)
+
+where:
+
 ![weat_def2](/images/weat_definition_2.png)
 
 We use the same word lists in Caliskan et al. for the comparisons (Math vs. Arts) and (Science vs. Arts), to avoid the risk of manipulating our results to achieve certain conclusions. To compute the WEAT score, we use the **responsibly** package ([link](https://github.com/ResponsiblyAI/responsibly)), following the demos at the [docs](https://docs.responsibly.ai/notebooks/demo-word-embedding-bias.html).
 
 ## Tasks
 
-### Bias in Embeddings trained from scratch
+#### Bias in Embeddings trained from scratch
 
 We explore the sources of bias (as measured by the 2 metrics above) by training our own embeddings using various configurations of:
 
@@ -62,9 +65,9 @@ We explore the sources of bias (as measured by the 2 metrics above) by training 
 
 For word2vec model training, we use the CBOW implementation from the **gensim** package, with parameters: context window size of 5, minimum word count of 5, learning rate of 0.01, and 15 epochs. After training word2vec using each of the combinations of configurations (of data source and dataset size above), we compute the two bias metrics above. 
 
-Please see the *word2vec_training.ipynb* notebook for the associated code and additional details.
+Please see our [word2vec_training.ipynb](https://github.com/CindyLi-Ayi/AC221-Final-Project-Embedding-Bias/blob/main/word2vec_training.ipynb) notebook for the associated code and additional details.
 
-### Bias in Existing Word Embeddings
+#### Bias in Existing Word Embeddings
 
 We think it is very important to examine the bias in existing embeddings since people too often just use these pretrain embeddings and trust them in their performance as well as fairness. At the same time, we hope to find clues of where the bias could come from by doing comparative studies across different embeddings and also their variants, and also give guidance on which is a less biased embedding when fairness is an important concern of the project. 
 
@@ -78,7 +81,7 @@ You can find more details about this task in `task2-bias_in_pretrained_word_embe
 
 
 
-### Whether bias in embeddings diffuses into downstream task (Sentiment Analysis)
+#### Whether bias in embeddings diffuses into downstream task (Sentiment Analysis)
 
-### Bias in Image Embedding (CLIP)
+#### Bias in Image Embedding (CLIP)
 
