@@ -29,7 +29,7 @@ We also have a list of offensive/profane word from CMU: https://www.cs.cmu.edu/~
 
 So we define the bias using the cosine similarity between 2 embedding vectors. If a gender-related word has higher cosine similarity with an offensive word compared to the corresponding word for the opposite gender, then we believe the embedding has a bias against that gender. We take the mean cosine similarity defined as follows to aggregate the performance over the offensive word list.
 
-$$\frac{\sum_{i=1}^n cos(male\_word, bad\_word_i)}{n}-\frac{\sum_{i=1}^n cos(female\_word, bad\_word_i)}{n}$$
+![badwords_definition](/images/badwords_definition.png)
 
 #### Usage 
 
@@ -44,7 +44,10 @@ res = calculate_cos_with_badwords(embedding={'word1':emb1, 'word2':emb2, ...})
 
 ### WEAT score
 #### Definitiion
-As implied by its name, the WEAT (Word Embedding Association Test) score measured bias in associations. Introduced by Caliskan et al. (2016), the WEAT score attempts to capture the strength of the association between two sets of target words (e.g. {math, science} and {art, literature}) and two sets of attribute words (e.g. {male, man} and {female, woman}). Intuitively, the score asks: is male/man more associated with math/science than art/literature, relative to female/woman? It does so through comparisons of mean cosine similarities.
+As implied by its name, the WEAT (Word Embedding Association Test) score measured bias in associations. Introduced by Caliskan et al. (2016), the WEAT score attempts to capture the strength of the association between two sets of target words (e.g. {math, science} and {art, literature}) and two sets of attribute words (e.g. {male, man} and {female, woman}). Intuitively, the score asks: is male/man more associated with math/science than art/literature, relative to female/woman? It does so through comparisons of mean cosine similarities:
+
+![weat_def1](/images/weat_definition_1.png)
+![weat_def2](/images/weat_definition_2.png)
 
 We use the same word lists in Caliskan et al. for the comparisons (Math vs. Arts) and (Science vs. Arts), to avoid the risk of manipulating our results to achieve certain conclusions. To compute the WEAT score, we use the **responsibly** package ([link](https://github.com/ResponsiblyAI/responsibly)), following the demos at the [docs](https://docs.responsibly.ai/notebooks/demo-word-embedding-bias.html).
 
