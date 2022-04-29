@@ -1,1 +1,11 @@
+# ignore byte-compiled files
+__pycache__/
+
+# ignore notebook checkpoints
 .ipynb_checkpoints/
+
+# ignore trained key vectors (saved when training embeddings from scratch)
+*.kv
+
+# ignore responsibly package (cloned for assessment of WEAT)
+responsibly/
