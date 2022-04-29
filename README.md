@@ -42,10 +42,24 @@ res = calculate_cos_with_badwords(embedding={'word1':emb1, 'word2':emb2, ...})
 ## y is a list of cosine similarity of the f word and bad words that are in embedding
 ```
 
+### WEAT score
+#### Definitiion
+As implied by its name, the WEAT (Word Embedding Association Test) score measured bias in associations. Introduced by Caliskan et al. (2016), the WEAT score attempts to capture the strength of the association between two sets of target words (e.g. {math, science} and {art, literature}) and two sets of attribute words (e.g. {male, man} and {female, woman}). Intuitively, the score asks: is male/man more associated with math/science than art/literature, relative to female/woman? It does so through comparisons of mean cosine similarities.
+
+We use the same word lists in Caliskan et al. for the comparisons (Math vs. Arts) and (Science vs. Arts), to avoid the risk of manipulating our results to achieve certain conclusions. To compute the WEAT score, we use the **responsibly** package ([link](https://github.com/ResponsiblyAI/responsibly)), following the demos at the [docs](https://docs.responsibly.ai/notebooks/demo-word-embedding-bias.html).
 
 ## Tasks
 
 ### Bias in Embeddings trained from scratch
+
+We explore the sources of bias (as measured by the 2 metrics above) by training our own embeddings using various configurations of:
+
+* Data source (Twitter, Reddit, CNN/DailyMail)
+* Dataset size (10k, 15k, 20k, 25k, 30k documents)
+
+For word2vec model training, we use the CBOW implementation from the **gensim** package, with parameters: context window size of 5, minimum word count of 5, learning rate of 0.01, and 15 epochs. After training word2vec using each of the combinations of configurations (of data source and dataset size above), we compute the two bias metrics above. 
+
+Please see the *word2vec_training.ipynb* notebook for the associated code and additional details.
 
 ### Bias in Existing Word Embeddings
 
