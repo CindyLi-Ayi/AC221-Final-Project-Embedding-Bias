@@ -81,7 +81,18 @@ You can find more details about this task in `task2-bias_in_pretrained_word_embe
 
 
 
-#### Whether bias in embeddings diffuses into downstream task (Sentiment Analysis)
+#### Whether Bias in Embeddings Diffuses into Downstream Tasks (Sentiment Analysis)
+
+### GloVe
+
+*   Twitter (2B tweets, 27B tokens, 1.2M vocab, uncased, 25d, 50d, 100d, & 200d vectors, 1.42 GB download):
+https://nlp.stanford.edu/data/glove.twitter.27B.zip
+*   Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 50d, 100d, 200d, & 300d vectors, 822 MB download): https://nlp.stanford.edu/data/glove.6B.zip
+
+### Results:
+* The Twitter embedding used in the GloVe model contains considerable bias in sentiment prediction results between female-associated words and male-associated words compared to the Wikipedia and Gigaword embedding used to train the GloVe model.
+* Among sentiment prediction scoring between female-associated words and male-associated words using the Twitter embedding to train our GloVe model, we see a disproportionately higher prediction proportion of female-associated words as negative compared to male-associated words, and a disproportionately lower prediction proportion of female-associated words as positive compared to male-associated words, indicating the potential flow of bias into downstream tasks for sentiment prediction. 
+* On the other hand, we see a much more uniform landscape of sentiment prediction scores among female-associated words and male-associated words when using the Wikipedia and Gigaword embeddings to train our GloVe model. This considerable discrepancy in predicted sentiment scores between the two GloVe models trained on the Twitter and Wikipedia and Gigaword embeddings support our hypothesis that bias in embeddings may have effects that transfer to downstream tasks (e.g. sentiment prediction in our example use case).
 
 #### Bias in Image Embedding (CLIP)
 
