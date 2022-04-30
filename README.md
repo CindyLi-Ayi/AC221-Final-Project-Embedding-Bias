@@ -1,8 +1,8 @@
-# AC221-Final-Project-Embedding-Bias
+# AC 221 Final Project: Gender Bias in Text & Image Embeddings
+
+
 
 Yuanbiao Wang, Angel Hsu, Morris Reeves, Xinyi Li
-
-
 
 
 ## Motivation
@@ -69,11 +69,11 @@ Please see our [word2vec_training.ipynb](https://github.com/CindyLi-Ayi/AC221-Fi
 
 #### Bias in Existing Word Embeddings
 
-We think it is very important to examine the bias in existing embeddings since people too often just use these pretrain embeddings and trust them in their performance as well as fairness. At the same time, we hope to find clues of where the bias could come from by doing comparative studies across different embeddings and also their variants, and also give guidance on which is a less biased embedding when fairness is an important concern of the project. 
+We think it is very important to examine the bias in existing embeddings since people too often just use these pretrained embeddings and trust them in their performance as well as fairness. At the same time, we hope to find clues of where the bias could come from by conducting comparative studies across different embeddings and also of their variants, and also obtain information on which embedding is less biased when fairness is an important concern of our project. 
 
-In this task, we examined 3 types of common embeddings - Glove, Word2vec and ELMo. As a summary of our findings, we think there are definitely bias in these pretrained word embeddings, but their level of bias varies. Therefore, the users have the choice to use a less biased one in their training. Most importantly, they should try to avoid the embeddings trained on informal dataset like Twitter. Other less significant factors include embedding dimention, dataset size and embedding layers depth. Also, if people want to train embeddings themselves, they may also want to be carefully when choosing which corpus to train on as well as the value of these other factors.
+In this task, we examined 3 types of common embeddings - Glove, Word2vec and ELMo. As a summary of our findings, we think there is definitely bias in these pretrained word embeddings, but their level of bias varies. Therefore, users have the choice of using a less biased embedding during their training process. Most importantly, they should try to avoid the embeddings trained on informal datasets like Twitter. Other less significant factors include embedding dimension, dataset size and depth of embedding layers. Additionally, if users would like to train embeddings themselves, they may also want to be cautious when deciding which corpus to train on as well as considering the aforementioned factors.
 
-You can find more details about this task in `task2-bias_in_pretrained_word_embeddings.ipynb`. You will need to first download the embeddings with
+More details about this task can be found in `task2-bias_in_pretrained_word_embeddings.ipynb`. You will need to first download the embeddings with
 
 ```python
 ./get_data.sh
@@ -81,18 +81,14 @@ You can find more details about this task in `task2-bias_in_pretrained_word_embe
 
 
 
-#### Whether Bias in Embeddings Diffuses into Downstream Tasks (Sentiment Analysis)
+#### Whether Bias in Embeddings Diffuses into Downstream Tasks (Sentiment Prediction and Analysis)
 
-### GloVe
+As a logical next step in our analysis, we are interested in examining whether bias in embeddings may potentially diffuse into downstream tasks, such as sentiment prediction and analysis. To complete this process, we utilized the Global Vectors for Word Representation (GloVe) Model trained on two different embeddings as detailed below, derived from the above excerise to maintain the continuity of our analysis:
 
-*   Twitter (2B tweets, 27B tokens, 1.2M vocab, uncased, 25d, 50d, 100d, & 200d vectors, 1.42 GB download):
-https://nlp.stanford.edu/data/glove.twitter.27B.zip
+*   Twitter (2B tweets, 27B tokens, 1.2M vocab, uncased, 25d, 50d, 100d, & 200d vectors, 1.42 GB download): https://nlp.stanford.edu/data/glove.twitter.27B.zip
 *   Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 50d, 100d, 200d, & 300d vectors, 822 MB download): https://nlp.stanford.edu/data/glove.6B.zip
 
-### Results:
-* The Twitter embedding used in the GloVe model contains considerable bias in sentiment prediction results between female-associated words and male-associated words compared to the Wikipedia and Gigaword embedding used to train the GloVe model.
-* Among sentiment prediction scoring between female-associated words and male-associated words using the Twitter embedding to train our GloVe model, we see a disproportionately higher prediction proportion of female-associated words as negative compared to male-associated words, and a disproportionately lower prediction proportion of female-associated words as positive compared to male-associated words, indicating the potential flow of bias into downstream tasks for sentiment prediction. 
-* On the other hand, we see a much more uniform landscape of sentiment prediction scores among female-associated words and male-associated words when using the Wikipedia and Gigaword embeddings to train our GloVe model. This considerable discrepancy in predicted sentiment scores between the two GloVe models trained on the Twitter and Wikipedia and Gigaword embeddings support our hypothesis that bias in embeddings may have effects that transfer to downstream tasks (e.g. sentiment prediction in our example use case).
+In training these two GloVe models each on a different embedding, we are able to hold the methodology constant (using GloVe for both models) to clearly identify whether the bias in embeddings diffuses to downstream tasks, such as sentiment prediction. When comparing the results from the two models, we obtain the following conclusions. First, the Twitter embedding used in the GloVe model contains considerable bias in sentiment prediction results between female-associated words and male-associated words compared to the Wikipedia and Gigaword embedding used to train the other GloVe model. Second, among sentiment prediction scoring between female-associated words and male-associated words using the Twitter embedding to train our GloVe model, we see a disproportionately higher prediction proportion of female-associated words as negative compared to that of male-associated words, and a disproportionately lower prediction proportion of female-associated words as positive compared to that of male-associated words, indicating the potential flow of bias from embeddings into downstream tasks for sentiment prediction. Finally, we see a much more uniform landscape of sentiment prediction scores among female-associated words and male-associated words when using the Wikipedia and Gigaword embeddings to train our GloVe model. This considerable discrepancy in the distribution of predicted sentiment scores between the two GloVe models trained on the Twitter and Wikipedia and Gigaword embeddings supports our hypothesis that bias in embeddings may have effects that transfer and diffuse to downstream tasks (e.g. sentiment prediction in our example use case).
 
 #### Bias in Image Embedding (CLIP)
 
