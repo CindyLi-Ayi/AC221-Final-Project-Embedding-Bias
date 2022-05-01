@@ -12,14 +12,26 @@ Since text and images are two primary modes of communication in our society, it 
 In this project, we prioritized exploring bias in text by (1) training our own embeddings to identify where bias may originate from, (2) identifying whether existing embeddings have bias, and (3) using biased embeddings for classification to identify whether bias in embeddings diffuse to downstream tasks. We also supplemented this analysis by exploring cross-modal representations produced by CLIP, a self-supervised learning algorithm that aims to acquire cross-modal representations by contrasting co-occurring texts and images. CLIP was introduced by OpenAI in 2021; the algorithm is garnering attention in many fields, including text-prompted image generation, visual question answering, and image captioning. While this new algorithm shows great potential in bridging semantic understanding between images and text, it also embodies new ethical risks by introducing risks from both areas.
 
 
+## Final Deliverables
 
+Our project is heavily coding-based and we employed some of the most up-to-date deep neural networks to detect their fairness. Our approaches can be generalized to any other state-of-the-art deep models and we will provide with you the instructions to use our code and the motivation behind our designs.
+
+Our write-up can be found **in this README file**, but you can also expect to see a large proportion of the detailed descriptions and result analyses, as well as the ethical thinkings in the :books: jupyter notebooks we provide:
+
+- [Train a word2vec in scratch and explore how biases can be generated](word2vec_training.ipynb)
+- [Exploring biases in existing text embeddings](task2-bias_in_pretrained_word_embeddings.ipynb)
+- [How biases in embeddings diffuse to downstream tasks](sentiment_prediction.ipynb)
+- [Visualize the embeddings and stereotypical words with CLIP](AC221_CLIP_Vis.ipynb)
+- [Quantitive Analysis using the CLIP embedding and offensive word list](CLIP_Quant.ipynb)
+
+We also include our presentation slides that outline our work: [Presentation Slides with videos](https://docs.google.com/presentation/d/1jA6-yPFEQhaab1anV6qQDywxgFnN_lAWq8BicMptZOg/edit?usp=sharing)
 
 ## Definition and Metrics
 
 For this project, we primarily focus on gender bias and we define bias using the following 2 metrics.
 
-#### Bias definition 1: cosine similarity with offensive words
-##### Definition
+### Bias definition 1: cosine similarity with offensive words
+#### Definition
 We have a list of male word and female word listed below.
 ```python
 male_words = ['he', 'male', 'man', 'father', 'boy', 'husband']
@@ -31,7 +43,7 @@ So we define the bias using the cosine similarity between 2 embedding vectors. I
 
 ![badwords_definition](/images/badwords_definition.png)
 
-##### Usage 
+#### Usage 
 
 ```python
 from badword_matric import calculate_cos_with_badwords
@@ -42,8 +54,8 @@ res = calculate_cos_with_badwords(embedding={'word1':emb1, 'word2':emb2, ...})
 ## y is a list of cosine similarity of the f word and bad words that are in embedding
 ```
 
-#### Bias definition 2: WEAT score
-##### Definition
+### Bias definition 2: WEAT score
+#### Definition
 As implied by its name, the WEAT (Word Embedding Association Test) score measured bias in associations. Introduced by Caliskan et al. (2016), the WEAT score attempts to capture the strength of the association between two sets of target words (e.g. {math, science} and {art, literature}) and two sets of attribute words (e.g. {male, man} and {female, woman}). Intuitively, the score asks: is male/man more associated with math/science than art/literature, relative to female/woman? It does so through comparisons of mean cosine similarities:
 
 ![weat_def1](/images/weat_definition_1.png)
@@ -56,7 +68,9 @@ We use the same word lists in Caliskan et al. for the comparisons (Math vs. Arts
 
 ## Tasks
 
-#### Bias in Embeddings trained from scratch
+This section includes brief introduction and conclusions w.r.t the 5 tasks we experimented with. Please refer to the jupyter notebooks we referred to earlier for more details and analyses.
+
+### Bias in Embeddings trained from scratch
 
 We explore the sources of bias (as measured by the 2 metrics above) by training our own embeddings using various configurations of:
 
@@ -67,7 +81,7 @@ For word2vec model training, we use the CBOW implementation from the **gensim** 
 
 Please see our [word2vec_training.ipynb](https://github.com/CindyLi-Ayi/AC221-Final-Project-Embedding-Bias/blob/main/word2vec_training.ipynb) notebook for the associated code and additional details.
 
-#### Bias in Existing Word Embeddings
+### Bias in Existing Word Embeddings
 
 We think it is very important to examine the bias in existing embeddings since people too often just use these pretrained embeddings and trust them in their performance as well as fairness. At the same time, we hope to find clues of where the bias could come from by conducting comparative studies across different embeddings and also of their variants, and also obtain information on which embedding is less biased when fairness is an important concern of our project. 
 
@@ -81,7 +95,7 @@ More details about this task can be found in `task2-bias_in_pretrained_word_embe
 
 
 
-#### Whether Bias in Embeddings Diffuses into Downstream Tasks (Sentiment Prediction and Analysis)
+### Whether Bias in Embeddings Diffuses into Downstream Tasks (Sentiment Prediction and Analysis)
 
 As a logical next step in our analysis, we are interested in examining whether bias in embeddings may potentially diffuse into downstream tasks, such as sentiment prediction and analysis. To complete this process, we utilized the Global Vectors for Word Representation (GloVe) Model trained on two different embeddings as detailed below, derived from the above excerise to maintain the continuity of our analysis:
 
@@ -90,5 +104,5 @@ As a logical next step in our analysis, we are interested in examining whether b
 
 In training these two GloVe models each on a different embedding, we are able to hold the methodology constant (using GloVe for both models) to clearly identify whether the bias in embeddings diffuses to downstream tasks, such as sentiment prediction. When comparing the results from the two models, we obtain the following conclusions. First, the Twitter embedding used in the GloVe model contains considerable bias in sentiment prediction results between female-associated words and male-associated words compared to the Wikipedia and Gigaword embedding used to train the other GloVe model. Second, among sentiment prediction scoring between female-associated words and male-associated words using the Twitter embedding to train our GloVe model, we see a disproportionately higher prediction proportion of female-associated words as negative compared to that of male-associated words, and a disproportionately lower prediction proportion of female-associated words as positive compared to that of male-associated words, indicating the potential flow of bias from embeddings into downstream tasks for sentiment prediction. Finally, we see a much more uniform landscape of sentiment prediction scores among female-associated words and male-associated words when using the Wikipedia and Gigaword embeddings to train our GloVe model. This considerable discrepancy in the distribution of predicted sentiment scores between the two GloVe models trained on the Twitter and Wikipedia and Gigaword embeddings supports our hypothesis that bias in embeddings may have effects that transfer and diffuse to downstream tasks (e.g. sentiment prediction in our example use case).
 
-#### Bias in Image Embedding (CLIP)
+### Bias in Image Embedding (CLIP)
 
