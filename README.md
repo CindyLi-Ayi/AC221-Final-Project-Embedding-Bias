@@ -1,22 +1,21 @@
 # AC 221 Final Project: Gender Bias in Text & Image Embeddings
-
-
+:fountain_pen::camera_flash::people_holding_hands:
 
 Yuanbiao Wang, Angel Hsu, Morris Reeves, Xinyi Li
 
 
-## Motivation
+## :white_check_mark: Motivation
 
 Since text and images are two primary modes of communication in our society, it is of significant importance to explore bias in these two contexts, identify ways to mitigate bias in these two modes, and explore the potential connections between working with bias in the two modes. Commonly, learned representations, the numerical vector representations of either text or images learned from large pre-trained neural networks, are used to perform transfer learning on downstream tasks. As such models increase in complexity, it is increasingly important to examine the biases in these unexplainable vector representations, and that will be our focus in this project.
 
 In this project, we prioritized exploring bias in text by (1) training our own embeddings to identify where bias may originate from, (2) identifying whether existing embeddings have bias, and (3) using biased embeddings for classification to identify whether bias in embeddings diffuse to downstream tasks. We also supplemented this analysis by exploring cross-modal representations produced by CLIP, a self-supervised learning algorithm that aims to acquire cross-modal representations by contrasting co-occurring texts and images. CLIP was introduced by OpenAI in 2021; the algorithm is garnering attention in many fields, including text-prompted image generation, visual question answering, and image captioning. While this new algorithm shows great potential in bridging semantic understanding between images and text, it also embodies new ethical risks by introducing risks from both areas.
 
 
-## Final Deliverables
+## :books: Final Deliverables
 
 Our project is heavily coding-based and we employed some of the most up-to-date deep neural networks to detect their fairness. Our approaches can be generalized to any other state-of-the-art deep models and we will provide with you the instructions to use our code and the motivation behind our designs.
 
-Our write-up can be found **in this README file**, but you can also expect to see a large proportion of the detailed descriptions and result analyses, as well as the ethical thinkings in the :books: jupyter notebooks we provide:
+Our write-up can be found **in this README file**, but you can also expect to see a large proportion of the detailed descriptions and result analyses, as well as the ethical thinkings in the jupyter notebooks we provide:
 
 - [Train a word2vec in scratch and explore how biases can be generated](word2vec_training.ipynb)
 - [Exploring biases in existing text embeddings](task2-bias_in_pretrained_word_embeddings.ipynb)
@@ -26,7 +25,7 @@ Our write-up can be found **in this README file**, but you can also expect to se
 
 We also include our presentation slides that outline our work: [Presentation Slides with videos](https://docs.google.com/presentation/d/1jA6-yPFEQhaab1anV6qQDywxgFnN_lAWq8BicMptZOg/edit?usp=sharing)
 
-## Definition and Metrics
+## :memo:Definition and Metrics
 
 For this project, we primarily focus on gender bias and we define bias using the following 2 metrics.
 
@@ -66,7 +65,7 @@ where:
 
 We use the same word lists in Caliskan et al. for the comparisons (Math vs. Arts) and (Science vs. Arts), to avoid the risk of manipulating our results to achieve certain conclusions. To compute the WEAT score, we use the **responsibly** package ([link](https://github.com/ResponsiblyAI/responsibly)), following the demos at the [docs](https://docs.responsibly.ai/notebooks/demo-word-embedding-bias.html).
 
-## Tasks
+## 	:hot_pepper:Tasks
 
 This section includes brief introduction and conclusions w.r.t the 5 tasks we experimented with. Please refer to the jupyter notebooks we referred to earlier for more details and analyses.
 
