@@ -105,3 +105,17 @@ In training these two GloVe models each on a different embedding, we are able to
 
 ### Bias in Image Embedding (CLIP)
 
+## Language-Image Contrastive Learning
+
+Historically, deep neural nets for computer vision work in this routine: first a large dataset with labeled images are collected, and then task-specific model are trained on this dataset using supervised learning algorithms. The problem with this approach is that the collection and labelling of the dataset is exceptionally expensive, especially for tasks like semantic segmentation and object detection. Meanwhile, the outcome or the trained model, can only be used on this one specific task. The high cost-benefit ratio makes many companies and researchers unsatisfied.
+
+Recently, more and more people have been turning their focus to unsupervised representational learning. In this learning diagram, an even larger dataset without labels are created and then unsupervised learning algorithms like SimCLR will be employed to excavate the interior structural information of the data, subsequently yielding abstracted visual representations of images. These image representations are usually high-dimensional vectors and it has been proved by many works that they can be useful plug-ins for any downstream tasks.
+
+CLIP (Contrastive Language Image Pretraining) is a new algorithm proposed by OpenAI to bridge the gap between image and text. To do this, the researchers collected a dataset 30 times larger than ImageNet, called WIT (Web Image Text), which contains around 400 million images and their co-occurent texts. The CLIP model consists of two components, an image encoder and a text encoder, both of which will generate a vectorized representations, or embeddings. By maximizing the cosine similarities between relevant images and texts while minizing irrelevant image-text pairs' cosine similarity, the CLIP model will learn to represent both modalities in an uniform way.
+
+## Ethic issues undiscovered in CLIP
+
+
+
+
+
