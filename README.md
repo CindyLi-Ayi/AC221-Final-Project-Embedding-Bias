@@ -105,7 +105,7 @@ In training these two GloVe models each on a different embedding, we are able to
 
 ### Bias in Image Embedding (CLIP)
 
-## Language-Image Contrastive Learning
+#### Language-Image Contrastive Learning
 
 Historically, deep neural nets for computer vision work in this routine: first a large dataset with labeled images are collected, and then task-specific model are trained on this dataset using supervised learning algorithms. The problem with this approach is that the collection and labelling of the dataset is exceptionally expensive, especially for tasks like semantic segmentation and object detection. Meanwhile, the outcome or the trained model, can only be used on this one specific task. The high cost-benefit ratio makes many companies and researchers unsatisfied.
 
@@ -113,7 +113,56 @@ Recently, more and more people have been turning their focus to unsupervised rep
 
 CLIP (Contrastive Language Image Pretraining) is a new algorithm proposed by OpenAI to bridge the gap between image and text. To do this, the researchers collected a dataset 30 times larger than ImageNet, called WIT (Web Image Text), which contains around 400 million images and their co-occurent texts. The CLIP model consists of two components, an image encoder and a text encoder, both of which will generate a vectorized representations, or embeddings. By maximizing the cosine similarities between relevant images and texts while minizing irrelevant image-text pairs' cosine similarity, the CLIP model will learn to represent both modalities in an uniform way.
 
-## Ethic issues undiscovered in CLIP
+<img src='images/clip.png'>
+
+#### Ethic issues uncovered in CLIP
+
+In the [paper](https://arxiv.org/pdf/2103.00020.pdf) where CLIP is proposed, the author identified some of the stakeholders and analyzed the ethical issues in CLIP. You can also take a look at [my analysis about its ethical section](https://edstem.org/us/courses/15798/discussion/1221622) Aside from the possible surveillance problems, the author focused on the bias in the model that may bring harm to certain demographic groups. For examples, the paper compared the probability for each of the racial groups to be classified as primates and non-human subjects. If the model gives such predictions more frequently for certain groups of people, it will be considered as very much offensive. It also compares the top classes for men and women to examine the possible prejudices embedded in the model.
+
+However, the analyses are mostly based on the classification although it is claimed before that CLIP will be a generic encoder that will adapt to several downstream tasks. Therefore, we find it equally important to examine the fairness in the image representations it gets, just like what we did with the language models.
+
+#### Experiments
+In our work, we performed 3 experiments to explore whether there are potential biases in the CLIP image embeddings.
+
+1. The correlations between images and stereotypical texts
+
+    Notebook: [[Visualize the embeddings and stereotypical words with CLIP]](AC221_CLIP_Vis.ipynb)
+
+    First, we take some images of certain groups, and compare their cosine similarities with some words that we think might be correlated with stereotypes and prejudices. More technically, we cut the images in patches, and compare their cosine similarities with each words in a sentence and find the maximum one. We first explore whether there are gender biases in CLIP. For example, “strong tough career” might conventionally be used to depict a man in a stereotypical context, and words like “cute submissive family” are biased descriptions about women. If we see there is a high correlation between the stereotypical words and the picture, we can assert that the embeddings are somehow biased. During the experiment we found that although the picture of a househusband is more associated with masculine-stereotypical words like strong and career, it also has higher cosine similarities with feminie-stereotypical words like cute and family. 
+
+    <img src='images/vis.png'>
+
+    We did many similar experiments and found the results are aligned. The CLIP won't give high similarities between stereotypical words and the image simply because of the person's appearance. Quite contrary to our presumption about the potential biases, the CLIP model actually cares more about the image context and might entail more fairness than we have imagined, which is a good thing. The results are displayed both in the notebook and the slides we provided.
+
+2. Quantitively measuring the biases in CLIP
+    [Quantitive Analysis using the CLIP embedding and offensive word list](CLIP_Quant.ipynb)
+    After we reach a coarse conclusion with the visualization, can we assert that CLIP is perfectly fair? Actually no. We must be aware that when we select the picture for visualization, we might fall into the pit of selection bias. The pictures we selected might not be representative and inclusive enough. To carry out a comprehensive study, we need to use a large quantity of representative images and texts.
+
+    Gladly, Facebook has a dataset for fairness evaluation called [FairFace](https://openaccess.thecvf.com/content/WACV2021/papers/Karkkainen_FairFace_Face_Attribute_Dataset_for_Balanced_Race_Gender_and_Age_WACV_2021_paper.pdf). It is composed of 108,501 faces from each racial, gender and age groups and it makes sure that no group is underrepresented compared to other trending datasets like CelebA or CoCo. We use this dataset for our quantitive analysis.
+
+    As for the text part, we still employ the offensive wordlist we used in previous sections. We take the average cosine similarities with each image and all the offensive words as the bias metric. The higher the average cosine similarity score is, the more bias we think that the CLIP model has against this person. We visualize the distribution of each group using violin plot to get a intuition about the CLIP model's fairness.
+
+    <img src='images/quant.png'>
+
+    The conclusion we reached from the result is that CLIP is most unfriendly and biased against men, East Asians, teenagers and the middle-aged. 
+
+3. Image generation
+
+    As we have demonstrated before, the ethical analyses in the original CLIP paper are more concentrated on classification problem and overlook other downstream tasks. Here we chose the image generation problem as it is prevalent these days and will have serious ethical implications if biases are not identified. 
+
+    We are using [this notebook](https://colab.research.google.com/drive/1_4PQqzM_0KKytCzWtn-ZPi4cCa5bwK2F?usp=sharing) created by Katherine Crowson and modified by Prof. Philip Isola. Briefly speaking, we attach an image generator(VQGAN) and input the generated image into the CLIP image encoder and try to minize the cosine similarity between the image and the embedding of a given text prompt.
+
+    We find it very scary that the model outputs an arm of an African-American using this prompt: "A street gang member is accused of gun violence and grand theft". If this model is used for geographical profiling, it will be very dubious about the result that the model gives.
+
+    <img src='images/generated.png'>
+
+    There are also several other examples we tried and you may take a look at them in the appendix part in our slides.
+
+
+## :brain: Key Takeaways
+
+A few takeaways from our analyses above include: first, all of the data sources and computational methods that contribute to the embeddings and the evaluation of their fairness, like training data, bias evaluation metrics, embedding space selection, downstream tasks, all have significant impact on the result. Additionally, because CLIP-like image encoders are trained with co-occurent texts, they are also correlated with the contexts on which they are trained and are thus not immune to bias. Therefore, we must always be extremely cautious about the methods and parameters we use to build the text and image embeddings as they will bring about biases that will impact stakeholders.
+
 
 
 
