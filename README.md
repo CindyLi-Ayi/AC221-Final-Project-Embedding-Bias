@@ -150,7 +150,7 @@ In our work, we performed 3 experiments to explore whether there are potential b
 
     As we have demonstrated before, the ethical analyses in the original CLIP paper are more concentrated on classification problem and overlook other downstream tasks. Here we chose the image generation problem as it is prevalent these days and will have serious ethical implications if biases are not identified. 
 
-    We are using [this notebook](https://colab.research.google.com/drive/1_4PQqzM_0KKytCzWtn-ZPi4cCa5bwK2F?usp=sharing) created by Katherine Crowson and modified by Prof. Philip Isola. Briefly speaking, we attach an image generator(VQGAN) and input the generated image into the CLIP image encoder and try to minize the cosine similarity between the image and the embedding of a given text prompt.
+    We are using [this notebook](https://colab.research.google.com/drive/1_4PQqzM_0KKytCzWtn-ZPi4cCa5bwK2F?usp=sharing) created by Katherine Crowson and modified by Prof. Philip Isola. Briefly speaking, we attach an image generator (VQGAN) and input the generated image into the CLIP image encoder and try to minize the cosine similarity between the image and the embedding of a given text prompt.
 
     We find it very scary that the model outputs an arm of an African-American using this prompt: "A street gang member is accused of gun violence and grand theft". If this model is used for geographical profiling, it will be very dubious about the result that the model gives.
 
