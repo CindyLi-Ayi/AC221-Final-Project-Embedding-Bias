@@ -135,7 +135,7 @@ In our work, we performed 3 experiments to explore whether there are potential b
     We did many similar experiments and found the results are aligned. The CLIP won't give high similarities between stereotypical words and the image simply because of the person's appearance. Quite contrary to our presumption about the potential biases, the CLIP model actually cares more about the image context and might entail more fairness than we have imagined, which is a good thing. The results are displayed both in the notebook and the slides we provided.
 
 2. Quantitively measuring the biases in CLIP
-    [Quantitive Analysis using the CLIP embedding and offensive word list](CLIP_Quant.ipynb)
+    [Quantitive Analysis using the CLIP embedding and offensive word list](CLIP_Quant.ipynb).
     After we reach a coarse conclusion with the visualization, can we assert that CLIP is perfectly fair? Actually no. We must be aware that when we select the picture for visualization, we might fall into the pit of selection bias. The pictures we selected might not be representative and inclusive enough. To carry out a comprehensive study, we need to use a large quantity of representative images and texts.
 
     Gladly, Facebook has a dataset for fairness evaluation called [FairFace](https://openaccess.thecvf.com/content/WACV2021/papers/Karkkainen_FairFace_Face_Attribute_Dataset_for_Balanced_Race_Gender_and_Age_WACV_2021_paper.pdf). It is composed of 108,501 faces from each racial, gender and age groups and it makes sure that no group is underrepresented compared to other trending datasets like CelebA or CoCo. We use this dataset for our quantitive analysis.
